@@ -6,6 +6,7 @@ export class ToolsController extends BaseController {
   constructor() {
     super('api/tools')
     this.router
+      .get('/:toolId', this.getToolById)
       .get('', this.getAllTools)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createToolListing)
@@ -27,6 +28,16 @@ export class ToolsController extends BaseController {
     try {
       const tools = await toolsService.getAllTools()
       response.send(tools)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getToolById(request, response, next) {
+    try {
+      const toolId = request.params.toolId
+      const tool = await toolsService.getToolById(toolId)
+      response.send(tool)
     } catch (error) {
       next(error)
     }
