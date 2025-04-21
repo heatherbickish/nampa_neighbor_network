@@ -10,6 +10,7 @@ export class ToolsController extends BaseController {
       .get('', this.getAllTools)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createToolListing)
+      .put('/:toolId', this.editTool)
   }
 
 
@@ -38,6 +39,18 @@ export class ToolsController extends BaseController {
       const toolId = request.params.toolId
       const tool = await toolsService.getToolById(toolId)
       response.send(tool)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editTool(request, response, next) {
+    try {
+      const toolId = request.params.toolId
+      const updateData = request.body
+      const userId = request.userInfo.id
+      const updatedTool = await toolsService.editTool(toolId, userId, updateData)
+      response.send(updatedTool)
     } catch (error) {
       next(error)
     }
