@@ -4,7 +4,7 @@ export const ToolSchema = new Schema({
   creatorId: { type: Schema.ObjectId, required: true },
   title: { type: String, maxLength: 100, required: true },
   description: { type: String, maxLength: 2000, required: true },
-  category: { type: String, enum: ['Tools', 'Tasks', 'Items', 'Camping', 'Kitchen'], required: true },
+  category: { type: String, enum: ['Tools', 'Automotive', 'Items', 'Camping', 'Kitchen', 'Speciality'], required: true },
   location: { type: String, maxLength: 100, required: true },
   condition: { type: String, maxLength: 100, required: true },
   img: { type: String, maxLength: 3000 },
