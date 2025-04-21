@@ -33,7 +33,7 @@ class ToolsService {
     return tool
   }
   async getAllTools() {
-    const tools = await dbContext.Tools.find().populate('creator', 'name picture')
+    const tools = await dbContext.Tools.find().populate('creator', 'name picture').sort('-createdAt')
     return tools
   }
   async createToolListing(toolData) {

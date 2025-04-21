@@ -6,6 +6,7 @@ export class TasksController extends BaseController {
   constructor() {
     super('api/tasks')
     this.router
+      .get('', this.getAllTasks)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTaskListing)
   }
@@ -16,6 +17,15 @@ export class TasksController extends BaseController {
       taskData.creatorId = request.userInfo.id
       const task = await tasksService.createTaskListing(taskData)
       response.send(task)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAllTasks(request, response, next) {
+    try {
+      const tasks = await tasksService.getAllTasks()
+      response.send(tasks)
     } catch (error) {
       next(error)
     }
