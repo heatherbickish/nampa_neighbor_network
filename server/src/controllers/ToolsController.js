@@ -11,6 +11,7 @@ export class ToolsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createToolListing)
       .put('/:toolId', this.editTool)
+      .delete('/:toolId', this.deleteTool)
   }
 
 
@@ -51,6 +52,17 @@ export class ToolsController extends BaseController {
       const userId = request.userInfo.id
       const updatedTool = await toolsService.editTool(toolId, userId, updateData)
       response.send(updatedTool)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async deleteTool(request, response, next) {
+    try {
+      const toolId = request.params.toolId
+      const userId = request.userInfo.id
+      const message = await toolsService.deleteTool(toolId, userId)
+      response.send(message)
     } catch (error) {
       next(error)
     }

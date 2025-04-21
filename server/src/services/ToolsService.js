@@ -2,6 +2,15 @@ import { dbContext } from "../db/DbContext.js"
 import { Forbidden } from "../utils/Errors.js"
 
 class ToolsService {
+  async deleteTool(toolId, userId) {
+    const tool = await dbContext.Tools.findById(toolId)
+
+    if (tool == null) throw new Error(`Invalid tool id: ${toolId}`)
+    if (tool.creatorId != userId) throw new Forbidden("YOU CANT DELETE THAT ITS NOT YOURS HOMIE")
+
+    await tool.deleteOne()
+    return 'Tool listing has been deleted!'
+  }
   async editTool(toolId, userId, updateData) {
     const originalTool = await dbContext.Tools.findById(toolId)
 
