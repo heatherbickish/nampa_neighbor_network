@@ -11,6 +11,7 @@ export class TasksController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTaskListing)
       .put('/:taskId', this.editTask)
+      .delete('/:taskId', this.deleteTask)
   }
 
   async createTaskListing(request, response, next) {
@@ -50,6 +51,17 @@ export class TasksController extends BaseController {
       const userId = request.userInfo.id
       const updatedTask = await tasksService.editTask(taskId, userId, updateData)
       response.send(updatedTask)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async deleteTask(request, response, next) {
+    try {
+      const taskId = request.params.taskId
+      const userId = request.userInfo.id
+      const message = await tasksService.deleteTask(taskId, userId)
+      response.send(message)
     } catch (error) {
       next(error)
     }

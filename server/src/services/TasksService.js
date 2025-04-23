@@ -2,6 +2,15 @@ import { dbContext } from "../db/DbContext.js"
 import { Forbidden } from "../utils/Errors.js"
 
 class TasksService {
+  async deleteTask(taskId, userId) {
+    const task = await dbContext.Tasks.findById(taskId)
+
+    if (task == null) throw new Error(`Invalid task id: ${taskId}`)
+    if (task.creatorId != userId) throw new Forbidden("UH UH UH, YOU DIDNT SAY THAT MAGIC WORD")
+
+    await task.deleteOne()
+    return 'Task was deleted!!!'
+  }
   async editTask(taskId, userId, updateData) {
     const originalTask = await dbContext.Tasks.findById(taskId)
 
