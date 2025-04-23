@@ -1,6 +1,22 @@
 import { dbContext } from "../db/DbContext.js"
+import { Forbidden } from "../utils/Errors.js"
 
 class TasksService {
+  async editTask(taskId, userId, updateData) {
+    const originalTask = await dbContext.Tasks.findById(taskId)
+
+    if (!originalTask) throw new Error(`Invalid task id: ${taskId}`)
+    if (userId != updateData.creatorId) throw new Forbidden("TAINT YOURS DARLING CANT TO THAT")
+
+    originalTask.title ??= updateData.title
+    originalTask.description ??= updateData.description
+    originalTask.location ??= updateData.location
+    originalTask.category ??= updateData.category
+    originalTask.proprosedPrice ??= updateData.proprosedPrice
+
+    await originalTask.save()
+    return originalTask
+  }
   async getTaskById(taskId) {
     const task = await dbContext.Tasks.findById(taskId).populate('creator', 'name picture')
     return task

@@ -10,6 +10,7 @@ export class TasksController extends BaseController {
       .get('', this.getAllTasks)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTaskListing)
+      .put('/:taskId', this.editTask)
   }
 
   async createTaskListing(request, response, next) {
@@ -37,6 +38,18 @@ export class TasksController extends BaseController {
       const taskId = request.params.taskId
       const task = await tasksService.getTaskById(taskId)
       response.send(task)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editTask(request, response, next) {
+    try {
+      const taskId = request.params.taskId
+      const updateData = request.body
+      const userId = request.userInfo.id
+      const updatedTask = await tasksService.editTask(taskId, userId, updateData)
+      response.send(updatedTask)
     } catch (error) {
       next(error)
     }
