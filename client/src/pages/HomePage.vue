@@ -21,8 +21,15 @@ async function getAllTasks() {
 </script>
 
 <template>
-  <h1>Home Page!</h1>
-  <div>{{ tasks }}</div>
+  <section class="row mx-0">
+    <div class="col-md-5">
+      <div>
+        <h1>Hello neighbor!</h1>
+        <h3>Nampa's Way to Connect and Thrive.</h3>
+      </div>
+    </div>
+    <div class="col-md-5"></div>
+  </section>
 </template>
 
 <style scoped lang="scss"></style>
