@@ -22,7 +22,7 @@ function logout() {
     </button>
     <div v-else>
       <div class="dropdown">
-        <div role="button" class="bg-dark selectable no-select" data-bs-toggle="dropdown" aria-expanded="false"
+        <div role="button" class="selectable no-select" data-bs-toggle="dropdown" aria-expanded="false"
           title="open account menu">
           <div v-if="account?.picture || identity?.picture">
             <img :src="account?.picture || identity?.picture" alt="account photo" height="40" class="user-img" />
@@ -50,7 +50,8 @@ function logout() {
 .user-img {
   height: 40px;
   width: 40px;
-  border-radius: 100px;
+  aspect-ratio: 1/1;
+  border-radius: 6px;
   object-fit: cover;
   object-position: center;
 }
